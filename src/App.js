@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-//import PropTypes from "prop-types";
-//import PhotoList from "./PhotoList";
-import { List } from "antd-mobile";
+import { List } from "antd-mobile"; //用来antd mobile
+import _ from "lodash"; 
 
 import {
   CameraRoll,
@@ -9,15 +8,6 @@ import {
 
 const Item = List.Item;
 const Brief = Item.Brief;
-
-//const cnGroupName = {
-  //"camera": "相机",
-  //"screenshots": "截屏",
-  //"Weixin": "微信",
-  //"baiduNetdisk": "百度云",
-//}
-
-import _ from "lodash";
 
 class App extends Component {
   constructor(props) {
@@ -33,22 +23,23 @@ class App extends Component {
   }
 
   getPhotoTypes = async() => {
-    const data = await CameraRoll.getPhotos({ first: 10000});
+    const data = await CameraRoll.getPhotos({ first: 10000}); //得到10000条相片
     const uniqTypesPics = _.groupBy(data.edges, (val) => {
       return val.node.group_name;
-    });
+    }); // 根据他的group_name进行分组
+
 
     let categorys =_.keys(uniqTypesPics).map((key)=> {
       return {
         name: key,
-        demoImage: uniqTypesPics[key][0].node.image,
-        count: uniqTypesPics[key].length,
+        demoImage: uniqTypesPics[key][0].node.image,//拿到分组的第一张图片作为样例
+        count: uniqTypesPics[key].length,//拿到分组的图片数量
       };
     })
+
     this.setState({
       categorys: categorys
-    });
-    console.log(categorys);
+    }); //对筛选的分组进行存储 因为是异步操作所以是不能直接得到值的。要先存到state里面
   }
 
   renderGroups = () => {
@@ -79,28 +70,10 @@ class App extends Component {
     });
   }
 
-  //renderModal = () => {
-    //if (this.state.currCategory) {
-      //return (
-        //<Modal
-          //animationType={"slide"}
-          //transparent={false}
-          //visible
-          //onRequestClose={() => {alert("Modal has been closed.")}}
-        //>
-          //<View style={{flex: 1}}>
-            //<PhotoList groupName={this.state.currCategory} />
-          //</View>
-        //</Modal>
-      //)
-    //}
-  //}
-
   render() {
     return (
       <List className="my-list">
         {this.renderGroups()}
-        {/*this.renderModal()*/}
       </List>
     );
   }
