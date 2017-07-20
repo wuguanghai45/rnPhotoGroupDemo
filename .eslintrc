@@ -1,0 +1,28 @@
+{
+    "parser": "babel-eslint",
+    "plugins": [
+      "react",
+      "react-native",
+    ],
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "extends": ["eslint:recommended", "plugin:react/recommended"],
+
+    "rules": {
+      react/react-in-jsx-scope: 0,
+      no-console:  ["error", { allow: ["info", "log"] }],
+      comma-dangle: ["error", "only-multiline"]
+    },
+    "globals": {
+      XMLHttpRequest: true,
+      console: true,
+      FormData: true,
+      alert: true,
+      Headers: true,
+      fetch: true,
+      Promise: true,
+      require: true,
+    }
+}
+
